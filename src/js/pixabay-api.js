@@ -1,10 +1,13 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { createMarkup } from './render-functions.js';
 
 export function searchImages(searchWord) {
   const API_KEY = '47381737-77b313e1304caa98d6d0e16f2';
 
-  if (!searchWord) {
+  if (!searchWord.trim()) {
     iziToast.warning({
       title: 'Caution',
       position: 'bottomRight',
@@ -26,14 +29,33 @@ export function searchImages(searchWord) {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      console.log(response);
-
       return response.json();
     })
     .then(data => {
-      console.log(data);
+      console.log('data.hits', data.hits);
+      createMarkup(data.hits);
+      initializeLightbox();
+
+      if (data.hits.length === 0) {
+        iziToast.show({
+          title: 'No results',
+          position: 'topRight',
+          backgroundColor: '#cd0d0d',
+          message:
+            'Sorry, there are no images matching your search query. Please, try again!',
+        });
+        return;
+      }
     })
     .catch(error => {
-      console.log(error);
+      console.log(error.message);
     });
+}
+
+function initializeLightbox() {
+  let lightbox = new SimpleLightbox('.gallery-list a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+    overlayOpacity: 0.8,
+  });
 }
