@@ -19,14 +19,26 @@ export function createMarkup(arr) {
       }) => {
         return `<li class="gallery-item">
         <a href="${largeImageURL}" class="gallery-link">
-          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+          <img src="${webformatURL}" alt="${tags}" width="360px" loading="lazy" />
         </a>
         <div class="info">
-            <p><b>Likes:</b> ${likes}</p>
-            <p><b>Views:</b> ${views}</p>
-            <p><b>Comments:</b> ${comments}</p>
-            <p><b>Downloads:</b> ${downloads}</p>
+          <div class="info-item">
+            <h4>Likes:</h4>
+            <p>${likes}</p>
           </div>
+          <div class="info-item">
+            <h4>Views:</h4>
+            <p>${views}</p>
+          </div>
+          <div class="info-item">
+            <h4>Comments:</h4>
+            <p>${comments}</p>
+          </div>
+          <div class="info-item">
+            <h4>Downloads:</h4>
+            <p>${downloads}</p>
+          </div>
+        </div>
       </li>`;
       }
     )
