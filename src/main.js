@@ -5,6 +5,8 @@ const input = form.querySelector('input');
 form.addEventListener('submit', handleSubmit);
 const gallery = document.querySelector('.gallery-list');
 
+const loader = document.querySelector('.loader');
+
 function handleSubmit(event) {
   event.preventDefault();
   const inputValue = input.value.trim();
@@ -24,6 +26,6 @@ function clearGallery() {
 
 function showLoading() {
   if (gallery) {
-    gallery.innerHTML = '<p class="loading">Loading images, please wait...</p>';
+    loader.classList.remove('is-hidden');
   }
 }

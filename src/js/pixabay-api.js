@@ -10,7 +10,7 @@ export function searchImages(searchWord) {
   if (!searchWord.trim()) {
     iziToast.warning({
       title: 'Caution',
-      position: 'bottomRight',
+      position: 'topRight',
       backgroundColor: '#FF0000',
       message: 'Please enter a search word!',
     });
@@ -32,9 +32,8 @@ export function searchImages(searchWord) {
       return response.json();
     })
     .then(data => {
+      hideLoading();
       console.log('data.hits', data.hits);
-      createMarkup(data.hits);
-      initializeLightbox();
 
       if (data.hits.length === 0) {
         iziToast.show({
@@ -46,9 +45,19 @@ export function searchImages(searchWord) {
         });
         return;
       }
+
+      createMarkup(data.hits);
+      initializeLightbox();
     })
     .catch(error => {
+      hideLoading();
       console.log(error.message);
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        backgroundColor: '#cd0d0d',
+        message: `${error.message}`,
+      });
     });
 }
 
@@ -58,4 +67,11 @@ function initializeLightbox() {
     captionDelay: 250,
     overlayOpacity: 0.8,
   });
+}
+
+function hideLoading() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.classList.add('is-hidden');
+  }
 }
